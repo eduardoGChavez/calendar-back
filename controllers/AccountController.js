@@ -9,7 +9,7 @@ export const getAllUsers = async (req, res) => {
         const users = await AccountModel.findAll();
         res.status(200).json(users);
     } catch (error) {
-        res.json( {message: "Error al obtener todos los datos: " + error.message} );
+        res.json( {messageType: "0", message: "Error al obtener todos los datos: " + error.message} );
     }
 }
 //Mostrar un user
@@ -28,10 +28,11 @@ export const createUser = async (req, res) => {
     try {
        await AccountModel.create(req.body);
        res.status(200).json({
-           message:"¡Cuenta creado correctamente!"
+            messageType: "1",
+            message:"¡Cuenta creada correctamente!"
        });
     } catch (error) {
-        res.json( {message: error.message} );
+        res.json( {messageType: "0", message: error.message} );
     }
 }
 //Actualizar un user
@@ -45,7 +46,7 @@ export const updateUser = async (req, res) => {
             message:"¡Cuenta actualizada correctamente!"
         });
     } catch (error) {
-        res.json( {message: error.message} );
+        res.json( {messageType: "0", message: error.message} );
     }
 }
 //Eliminar un user
@@ -59,6 +60,6 @@ export const deleteUser = async (req, res) => {
             message: "¡Cuenta eliminado correctamente!"
         });
     } catch (error) {
-        res.json( {message: error.message} );
+        res.json( {messageType: "0", message: error.message} );
     }
 }
