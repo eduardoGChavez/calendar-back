@@ -5,6 +5,7 @@ const EventModel = db.define('events', {
         title: {type: DataTypes.STRING},
         start: {type: DataTypes.DATE},
         end: {type: DataTypes.DATE},
+        description: {type: DataTypes.DATE},
     },
     {
         timestamps: false,

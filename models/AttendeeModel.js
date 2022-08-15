@@ -3,8 +3,8 @@ import DataTypes from "sequelize";
 
 const AttendeeModel = db.define('attendees', {
         id_event: {
-            type: DataTypes.INTEGER,
-            primaryKey: true
+            type: DataTypes.INTEGER
+            // primaryKey: true
         },
         email: {type: DataTypes.STRING},
         organizer: {type: DataTypes.BOOLEAN},

@@ -5,16 +5,6 @@ import AttendeeModel from "../models/AttendeeModel.js";
 import sequelizeQuery from "sequelize";
 
 //** Métodos para el CRUD **/
-
-// //Mostrar todos los users
-// export const getAllUsers = async (req, res) => {
-//     try {
-//         const users = await AccountModel.findAll();
-//         res.status(200).json(users);
-//     } catch (error) {
-//         res.json( {messageType: "0", message: "Error al obtener todos los datos: " + error.message} );
-//     }
-// }
 //Mostrar un evento
 export const getEvent = async (req, res) => {
     try {
@@ -33,6 +23,7 @@ export const getEvent = async (req, res) => {
             title: null,
             start: null,
             organizer: null,
+            description: null,
             guests: []
         };
         for(let i = 0; i < id_events.length; i++) {
@@ -43,7 +34,9 @@ export const getEvent = async (req, res) => {
             event.title = eventData[0].dataValues.title;
             event.start = eventData[0].dataValues.start;
             event.end = eventData[0].dataValues.end;
+            event.description = eventData[0].dataValues.description;
             event.guests = [];
+            console.log(event);
 
             const attendees = await AttendeeModel.findAll({
                 where: { id_event: id_events[i] }
@@ -99,33 +92,35 @@ export const createEvent = async (req, res) => {
     }
 }
 
-// //Actualizar un user
-// export const updateUser = async (req, res) => {
-//     try {
-//         const id = req.params.id
-//         await AccountModel.update(req.body, {
-//             messageType: "1",
-//             where: { id: req.params.id }
-//         });
-//         res.status(200).json({
-//             message:"¡Cuenta actualizada correctamente!"
-//         });
-//     } catch (error) {
-//         res.json( {messageType: "0", message: error.message} );
-//     }
-// }
-// //Eliminar un user
-// export const deleteUser = async (req, res) => {
-//     try {
-//         const id = req.params.id
-//         await AccountModel.destroy({
-//             messageType: "1",
-//             where: { id: req.params.id }
-//         });
-//         res.status(200).json({
-//             message: "¡Cuenta eliminado correctamente!"
-//         });
-//     } catch (error) {
-//         res.json( {messageType: "0", message: error.message} );
-//     }
-// }
+//Actualizar un event
+export const updateEvent = async (req, res) => {
+    try {
+        const id = req.params.id;
+        // await AccountModel.update(req.body, {
+        //     where: { id: req.params.id }
+        // });
+        // res.status(200).json({
+        //     message:"¡Cuenta actualizada correctamente!"
+        // });
+    } catch (error) {
+        res.json( {messageType: "0", message: error.message} );
+    }
+}
+//Eliminar un evento
+export const deleteEvent = async (req, res) => {
+    try {
+        const id = req.params.id
+        await AttendeeModel.destroy({
+            where: { id_event: req.params.id },
+        });
+        await EventModel.destroy({
+            where: { id: req.params.id },
+        });
+        res.status(200).json({
+            messageType: "1",
+            message: "¡Evento eliminado correctamente!"
+        });
+    } catch (error) {
+        res.json( {messageType: "0", message: error.message} );
+    }
+}
