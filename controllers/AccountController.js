@@ -1,8 +1,5 @@
 //importamos el Modelo
 import AccountModel from "../models/AccountModel.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-
 
 //** Métodos para el CRUD **/
 
@@ -29,14 +26,7 @@ export const getUser = async (req, res) => {
 //Crear un user
 export const createUser = async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt();
-        const hashPassword = await bcrypt.hash(req.body.password, salt);
-        
-       await AccountModel.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: hashPassword
-       });
+       await AccountModel.create(req.body);
        res.status(200).json({
             messageType: "1",
             message:"¡Cuenta creada correctamente!"

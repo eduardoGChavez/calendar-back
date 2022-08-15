@@ -109,26 +109,26 @@ export const updateEvent = async (req, res) => {
             }
         });
         
-        // let bodyAttenders = { // Organizer
-        //     id: null,
-        //     id_event: dataEvent.dataValues.id,
-        //     email: null,
-        //     organizer: false,
-        // }
-        // for (let i = 0; i < req.body.guests.length; i++) {
-        //     if ( req.body.guests[i].id != null){
-        //         bodyAttenders.id = req.body.guests[i].id;
-        //         bodyAttenders.email = req.body.guests[i].correo,
-        //         await AttendeeModel.update(bodyAttenders, {
-        //             where: { 
-        //                 id: bodyAttenders.id
-        //             }
-        //         });
-        //     }
-        //     else {
-        //         await AttendeeModel.create(bodyAttenders);
-        //     }
-        // }
+        let bodyAttenders = { // Organizer
+            id: null,
+            id_event: dataEvent.dataValues.id,
+            email: null,
+            organizer: false,
+        }
+        for (let i = 0; i < req.body.guests.length; i++) {
+            if ( req.body.guests[i].id != null){
+                bodyAttenders.id = req.body.guests[i].id;
+                bodyAttenders.email = req.body.guests[i].correo,
+                await AttendeeModel.update(bodyAttenders, {
+                    where: { 
+                        id: bodyAttenders.id
+                    }
+                });
+            }
+            else {
+                await AttendeeModel.create(bodyAttenders);
+            }
+        }
         
         res.status(200).json({
             messageType: "1",
