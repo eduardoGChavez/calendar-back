@@ -1,15 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import db from "./database/db.js";
-// import blogRoutes from './routes/routes.js';
-// import blogRoutes from './routes/routes.js';
 import accountRoute from './routes/crudAccount.js';
+import eventRoute from './routes/crudEvent.js';
 const app = express();
 
 app.use( cors() );
 app.use( express.json() );
 // app.use('/blogs', blogRoutes);
 app.use('/users', accountRoute);
+app.use('/events', eventRoute);
 
 try {
     await db.authenticate();
@@ -24,14 +24,3 @@ app.get('/', (req, res) => {
 app.listen(8000, () => {
     console.log('Server UP running http://localhost:8000/');
 });
-
-// const app = express();
-// const port = 3000;
-
-// app.get('/', (req, res) => {
-//     res.send('Hola mi server en express');
-// });
-
-// app.listen(port, () => {
-//     console.log('Mi puerto ' + port);
-// });

@@ -40,6 +40,7 @@ export const updateUser = async (req, res) => {
     try {
         const id = req.params.id
         await AccountModel.update(req.body, {
+            messageType: "1",
             where: { id: req.params.id }
         });
         res.status(200).json({
@@ -54,6 +55,7 @@ export const deleteUser = async (req, res) => {
     try {
         const id = req.params.id
         await AccountModel.destroy({
+            messageType: "1",
             where: { id: req.params.id }
         });
         res.status(200).json({
