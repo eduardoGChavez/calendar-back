@@ -36,7 +36,6 @@ export const getEvent = async (req, res) => {
             event.end = eventData[0].dataValues.end;
             event.description = eventData[0].dataValues.description;
             event.guests = [];
-            console.log(event);
 
             const attendees = await AttendeeModel.findAll({
                 where: { id_event: id_events[i] }
@@ -47,7 +46,7 @@ export const getEvent = async (req, res) => {
                     event.organizer = attendees[i].dataValues.email;
                 }
                 else {
-                    event.guests.push({correo: attendees[i].dataValues.email});
+                    event.guests.push({correo: attendees[i].dataValues.email, id: attendees[i].dataValues.id});
                 }
             }
             events.push(JSON.stringify(event));
@@ -67,6 +66,7 @@ export const createEvent = async (req, res) => {
     try {
         let bodyEvent = {
             title: req.body.title,
+            description: req.body.description,
             start: req.body.start,
             end: req.body.end,
         }
@@ -96,12 +96,44 @@ export const createEvent = async (req, res) => {
 export const updateEvent = async (req, res) => {
     try {
         const id = req.params.id;
-        // await AccountModel.update(req.body, {
-        //     where: { id: req.params.id }
-        // });
-        // res.status(200).json({
-        //     message:"¡Cuenta actualizada correctamente!"
-        // });
+        let bodyEvent = {
+            id: req.body.id,
+            title: req.body.title,
+            description: req.body.description,
+            start: req.body.start,
+            end: req.body.end,
+        }
+        await EventModel.update(bodyEvent, {
+            where: { 
+                id: req.params.id
+            }
+        });
+        
+        // let bodyAttenders = { // Organizer
+        //     id: null,
+        //     id_event: dataEvent.dataValues.id,
+        //     email: null,
+        //     organizer: false,
+        // }
+        // for (let i = 0; i < req.body.guests.length; i++) {
+        //     if ( req.body.guests[i].id != null){
+        //         bodyAttenders.id = req.body.guests[i].id;
+        //         bodyAttenders.email = req.body.guests[i].correo,
+        //         await AttendeeModel.update(bodyAttenders, {
+        //             where: { 
+        //                 id: bodyAttenders.id
+        //             }
+        //         });
+        //     }
+        //     else {
+        //         await AttendeeModel.create(bodyAttenders);
+        //     }
+        // }
+        
+        res.status(200).json({
+            messageType: "1",
+            message:"¡Evento actualizado correctamente!"
+        });
     } catch (error) {
         res.json( {messageType: "0", message: error.message} );
     }

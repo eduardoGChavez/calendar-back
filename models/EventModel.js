@@ -3,9 +3,9 @@ import DataTypes from "sequelize";
 
 const EventModel = db.define('events', {
         title: {type: DataTypes.STRING},
+        description: {type: DataTypes.STRING},
         start: {type: DataTypes.DATE},
         end: {type: DataTypes.DATE},
-        description: {type: DataTypes.DATE},
     },
     {
         timestamps: false,
